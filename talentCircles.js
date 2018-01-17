@@ -84,7 +84,13 @@ class TalentCircles {
   }
 
   updateResource(resource, resource_id, resource_data) {
-    let uri = this.url + resource + "/" + resource_id.toString();
+    let idString = '';
+    if (Number.isInteger(resource_id)) {
+      idString = resource_id.toString();
+    } else if (Array.isArray(resource_id)) {
+      idString = resource_id.join();
+    }
+    let uri = this.url + resource + "/" + idString;
     return this.request.put(uri, {
       'auth': {
         'user': this.app_id,
@@ -108,26 +114,6 @@ class TalentCircles {
     });
     return resource_data;
   }
-
-  defaultDateString() {
-    const month_names = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
-    ];
-    let today = new Date();
-    return month_names[today.getMonth()] + " " + today.getDate() + ", " + today.getFullYear();
-  }
-
 
   // JOBS //
   getJob(job_id) {
@@ -287,12 +273,69 @@ class TalentCircles {
       .then(result => result.story);
   }
 
+  getStoryList(story_ids) {
+    return this.getResource('stories', story_ids)
+      .then(result => result.stories);
+  }
+
+  postStory(story_data) {
+    let valid_data = this.validateStoryData(story_data);
+    if (Object.keys(valid_data).indexOf('circle_id') < 0) {
+      throw new Error('circle_id not specified in story_data');
+    }
+    return this.createResource('stories', valid_data)
+      .then(result => result.story);
+  }
+
+  updateStory(story_id, story_update_data) {
+    if (!this.idIsValid(story_id)) {
+      throw new Error('Missing story_id');
+    }
+    return this.updateResource('stories', story_id, story_update_data)
+      .then(result => result.story);
+  }
+
+  updateMultipleStories(story_ids, story_update_data) {
+    if (typeof(story_ids) == 'undefined' || !Array.isArray(story_ids)) {
+      throw new Error('Missing story_ids');
+    }
+    return this.updateResource('stories', story_ids, story_update_data)
+      .then(result => result.stories);
+  }
+
   validateStoryData(story_data) {
     const required_fields = [
       'title',
       'story'
     ];
     return this.validateResource(story_data, required_fields);
+  }
+
+  // Util Functions //
+  defaultDateString() {
+    const month_names = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+    let today = new Date();
+    return month_names[today.getMonth()] + " " + today.getDate() + ", " + today.getFullYear();
+  }
+
+  idIsValid(resource_id) {
+    if (typeof(resource_id) < 0 || isNaN(resource_id) || resource_id < 0) {
+      return false;
+    }
+    return true;
   }
 }
 
@@ -453,6 +496,42 @@ const tc = new TalentCircles('mytalentmall.talentcircles.vm', 'romeo-5931c22e419
 
 //////// STORY FUNCTIONS ////////
 
-///// Get a Circle /////
-tc.getStory(270)
-  .then(story => console.log(story));
+///// Get a Story /////
+// tc.getStory(270)
+// .then(story => console.log(story));
+
+///// Get Multiple Stories /////
+// const story_ids = [270,255];
+
+// tc.getStoryList(story_ids)
+//   .then(stories => console.log(stories));
+
+///// Post a Story /////
+// const new_story_data = {
+//   'circle_id':376,
+//   'title':'New Story that is Great',
+//   'story':'This story is both new and great.'
+// };
+
+// tc.postStory(new_story_data)
+//   .then(story => console.log(story));
+
+///// Update a Story /////
+// const story_update_data = {
+//   'title':'Not So Bad a Story',
+//   'story':'You could really do worse'
+// }
+
+// tc.updateStory(272, story_update_data)
+//   .then(story => console.log(story));
+
+///// Update Multiple Stories /////
+// const story_update_data = {
+//   'title':'Freshly Updated Story',
+//   'story':"It's pretty good."
+// }
+
+// const story_ids = [272,271];
+
+// tc.updateMultipleStories(story_ids, story_update_data)
+//   .then(story => console.log(story));
