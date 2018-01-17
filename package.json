@@ -1,0 +1,19 @@
+{
+  "name": "talentcircles",
+  "version": "1.0.0",
+  "description": "Developer library for the TalentCircles API",
+  "main": "index.js",
+  "engineStrict": true,
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tom Clowers tom@talentcircles.com",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5"
+  }
+}
