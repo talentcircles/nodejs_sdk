@@ -403,7 +403,7 @@ const tc = new TalentCircles('mytalentmall.talentcircles.vm', 'romeo-5931c22e419
 //   .then(user => console.log(user));
 
 ///// Get Multiple Users /////
-// let user_ids = [12770147, 12766961]
+// let user_ids = [12770147, 12766961];
 // tc.getUserList(user_ids)
 //   .then(users => console.log(users));
 
