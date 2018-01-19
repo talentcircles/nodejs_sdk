@@ -1,7 +1,7 @@
 
 const querystring = require('querystring');
 
-class TalentCircles {
+module.exports = class TalentCircles {
   constructor(domain, app_id, api_key, prefix='https://', api_path='/api/v1/', environment='pro') {
     this.domain = domain;
     this.app_id = app_id;
@@ -361,9 +361,6 @@ class TalentCircles {
     return resources[resource_plural]
   }
 }
-
-module.exports.TalentCircles
-
 
 //////////////////////////////////////////////
 ////////////// Usage Examples ////////////////
