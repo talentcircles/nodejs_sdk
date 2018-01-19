@@ -362,13 +362,15 @@ class TalentCircles {
   }
 }
 
+module.exports.TalentCircles
+
 
 //////////////////////////////////////////////
 ////////////// Usage Examples ////////////////
 //////////////////////////////////////////////
 
 ////// Create the object //////
-const tc = new TalentCircles('mytalentmall.talentcircles.vm', 'romeo-5931c22e4190b', 'Y1IgDgriOjAo5hKMzZ0RxC', 'https://', '/api/v1/', 'dev');
+// const tc = new TalentCircles('mytalentmall.talentcircles.vm', 'romeo-5931c22e4190b', 'Y1IgDgriOjAo5hKMzZ0RxC', 'https://', '/api/v1/', 'dev');
 
 //////// JOB FUNCTIONS ////////
 
