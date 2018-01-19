@@ -2,7 +2,7 @@
   "name": "talentcircles",
   "version": "1.0.0",
   "description": "Developer library for the TalentCircles API",
-  "main": "index.js",
+  "main": "talentcircles.js",
   "engineStrict": true,
   "engines": {
     "node": ">=6.0.0"

@@ -27,6 +27,7 @@ class TalentCircles {
   }
 
   getPosessions(resource, resource_id, posession, additional_params = null) {
+    this.validateId(resource, resource_id);
     let uri = this.url + resource + "/" + resource_id.toString() + "/" + posession;
     if (additional_params) {
       uri = uri + "?" + querystring.stringify(additional_params);
@@ -36,6 +37,7 @@ class TalentCircles {
   }
 
   getResource(resource, resource_id) {
+    this.validateId(resource, resource_id);
     let idString = '';
     if (Number.isInteger(resource_id)) {
       idString = resource_id.toString();
@@ -84,6 +86,7 @@ class TalentCircles {
   }
 
   updateResource(resource, resource_id, resource_data) {
+    this.validateId(resource, resource_id);
     let idString = '';
     if (Number.isInteger(resource_id)) {
       idString = resource_id.toString();
@@ -102,7 +105,7 @@ class TalentCircles {
     .then(resource_json => JSON.parse(resource_json));
   }
 
-  validateResource(resource_data, required_fields) {
+  validateResourceData(resource_data, required_fields) {
     let fields_submitted = Object.keys(resource_data);
     // console.log("fields submitted: ", fields_submitted);
     // console.log("required fields: ", required_fields);
@@ -210,7 +213,7 @@ class TalentCircles {
       'email'
     ];
 
-    let validated = this.validateResource(user_data, required_fields);
+    let validated = this.validateResourceData(user_data, required_fields);
     let fields = Object.keys(validated);
     if (fields.indexOf('zipcode') < 0 && (fields.indexOf('city') < 0 && fields.indexOf('state') < 0)) {
       throw new Error('Missing location data for new user. Please include either a zipcode, or a city and state.');
@@ -263,7 +266,7 @@ class TalentCircles {
 
   validateCircleData(circle_data) {
     const required_circle_fields = ['circle_name'];
-    return this.validateResource(circle_data, required_circle_fields);
+    return this.validateResourceData(circle_data, required_circle_fields);
   }
 
 
@@ -288,17 +291,11 @@ class TalentCircles {
   }
 
   updateStory(story_id, story_update_data) {
-    if (!this.idIsValid(story_id)) {
-      throw new Error('Missing story_id');
-    }
     return this.updateResource('stories', story_id, story_update_data)
       .then(result => result.story);
   }
 
   updateMultipleStories(story_ids, story_update_data) {
-    if (typeof(story_ids) == 'undefined' || !Array.isArray(story_ids)) {
-      throw new Error('Missing story_ids');
-    }
     return this.updateResource('stories', story_ids, story_update_data)
       .then(result => result.stories);
   }
@@ -308,7 +305,7 @@ class TalentCircles {
       'title',
       'story'
     ];
-    return this.validateResource(story_data, required_fields);
+    return this.validateResourceData(story_data, required_fields);
   }
 
   // Util Functions //
@@ -331,11 +328,37 @@ class TalentCircles {
     return month_names[today.getMonth()] + " " + today.getDate() + ", " + today.getFullYear();
   }
 
-  idIsValid(resource_id) {
-    if (typeof(resource_id) < 0 || isNaN(resource_id) || resource_id < 0) {
-      return false;
+  validateId(resource, resource_id) {
+    let singular = this.getSingular(resource);
+    if (typeof(resource_id) == 'undefined') {
+      throw new Error('Missing ' + singular + '_id');
+    } else {
+      if (isNaN(resource_id)) {
+        if(!Array.isArray(resource_id)) {
+          throw new Error('Invalid ' + singular + '_id');
+        } else {
+          if(!resource_id.every(element => Number.isInteger(element))) {
+            throw new Error('One or more ' + singular + '_id value is invalid');
+          }
+        }
+      } else {
+        if (resource_id < 0) {
+          throw new Error('Invalid ' + singular + '_id');
+        }      
+      }
     }
+
     return true;
+  }
+
+  getSingular(resource_plural) {
+    const resources = {
+      'circles':'circle',
+      'stories':'story',
+      'jobs':'job',
+      'users':'user'
+    }
+    return resources[resource_plural]
   }
 }
 

@@ -17,14 +17,14 @@ const talentcircles = require('talentcircles');
 ```
 Then initialize the SDK object:
 ```javascript
-# Use your Network URL, App ID, and Api Key to connect to your API.
-# It is reccomended that this information be kept somewhere in your
-# project that is not accessible from the public html directory.
+// Use your Network URL, App ID, and Api Key to connect to your API.
+// It is reccomended that this information be kept somewhere in your
+// project that is not accessible from the public html directory.
 const app_id = "romeo-5931c22e4190b";
 const api_key = "Y1IgDgriOjAo5hKMzZ0RxC";
 const domain = "mytalentmall.talentcircles.vm";
 
-# Initialize the object
+// Initialize the object
 const tc = new talentcircles(domain, app_id, api_key)
 ```
 Then call any of the functions below to access data on the TalentCircles
