@@ -1,8 +1,10 @@
 {
   "name": "talentcircles",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Developer library for the TalentCircles API",
-  "bugs": { "url" : "https://github.com/talentcircles/nodejs_sdk/issues"},
+  "bugs": {
+    "url": "https://github.com/talentcircles/nodejs_sdk/issues"
+  },
   "homepage": "https://github.com/talentcircles/nodejs_sdk",
   "main": "talentcircles.js",
   "engineStrict": true,
@@ -18,8 +20,8 @@
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5"
   },
-  "repository" :
-  { "type" : "git"
-  , "url" : "https://github.com/talentcircles/nodejs_sdk.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talentcircles/nodejs_sdk.git"
   }
 }
