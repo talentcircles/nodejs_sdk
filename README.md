@@ -13,7 +13,7 @@ $ npm install talentcircles --save
 ## Usage
 First import TalentCircles from talentcircles.talentcircles
 ```javascript
-const talentcircles = require('talentcircles');
+const TalentCircles = require('talentcircles');
 ```
 Then initialize the SDK object:
 ```javascript
@@ -25,7 +25,7 @@ const api_key = "Y1IgDgriOjAo5hKMzZ0RxC";
 const domain = "mytalentmall.talentcircles.vm";
 
 // Initialize the object
-const tc = new talentcircles(domain, app_id, api_key)
+const tc = new TalentCircles(domain, app_id, api_key)
 ```
 Then call any of the functions below to access data on the TalentCircles
 network you are using. Each function will return a Promise that resolves 
